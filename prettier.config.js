@@ -1,4 +1,4 @@
-const prettierConfig = {
+module.exports = {
   printWidth: 120,
   endOfLine: 'auto',
   tabWidth: 2,
@@ -12,5 +12,3 @@ const prettierConfig = {
   arrowParens: 'always',
   plugins: ['prettier-plugin-tailwindcss'],
 };
-
-export default prettierConfig;
