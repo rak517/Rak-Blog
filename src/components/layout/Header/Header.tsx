@@ -19,6 +19,8 @@ export default function Header() {
 
   return (
     <header className='supports-[backdrop-filter]:bg-background/60 bg-background/95 border-border/40 sticky top-0 z-50 border-b backdrop-blur'>
+      <div className='via-primary/50 absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent to-transparent' />
+
       <div className='px-4 lg:container lg:mx-auto'>
         <div className='flex h-16 items-center justify-between gap-4'>
           <Link href='/' className='group flex shrink-0 items-center'>
