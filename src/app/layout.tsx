@@ -2,6 +2,7 @@ import { GeistSans } from 'geist/font/sans';
 import { GeistMono } from 'geist/font/mono';
 import './globals.css';
 import { ThemeProvider } from '@/providers/theme-provider';
+import Header from '@/components/layout/Header/Header';
 
 export default function RootLayout({
   children,
@@ -12,6 +13,7 @@ export default function RootLayout({
     <html lang='ko' className={`${GeistSans.variable} ${GeistMono.variable}`}>
       <body>
         <ThemeProvider attribute='class' defaultTheme='system' enableSystem disableTransitionOnChange>
+          <Header />
           {children}
         </ThemeProvider>
       </body>
