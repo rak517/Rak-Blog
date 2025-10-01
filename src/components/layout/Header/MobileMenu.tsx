@@ -30,10 +30,6 @@ export function MobileMenu({ isOpen, pathname }: MobileMenuProps) {
         <div className='border-border/40 mt-2 border-t pt-4'>
           <SearchBar isOpen={true} variant='mobile' />
         </div>
-
-        <div className='pt-2'>
-          <ThemeToggle />
-        </div>
       </nav>
     </div>
   );
