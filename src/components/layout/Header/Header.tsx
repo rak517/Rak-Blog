@@ -60,9 +60,7 @@ export default function Header() {
               <Search className='h-4 w-4' />
             </Button>
 
-            <div className='hidden md:block'>
-              <ThemeToggle />
-            </div>
+            <ThemeToggle />
 
             <Link href={ADMIN_LINK.href}>
               <Button
