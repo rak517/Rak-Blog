@@ -3,6 +3,7 @@
 import { NAV_ITEMS } from '@/constants/navigation';
 import NavLink from './NavLink';
 import { SearchBar } from './SearchBar';
+import ThemeToggle from '../ThemeToggle';
 
 interface MobileMenuProps {
   isOpen: boolean;
@@ -30,7 +31,9 @@ export function MobileMenu({ isOpen, pathname }: MobileMenuProps) {
           <SearchBar isOpen={true} variant='mobile' />
         </div>
 
-        <div className='pt-2'>{/* <ThemeToggle /> */}</div>
+        <div className='pt-2'>
+          <ThemeToggle />
+        </div>
       </nav>
     </div>
   );

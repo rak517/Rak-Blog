@@ -10,6 +10,7 @@ import { Menu, Search, X } from 'lucide-react';
 import { useState } from 'react';
 import { MobileMenu } from './MobileMenu';
 import { SearchBar } from './SearchBar';
+import ThemeToggle from '../ThemeToggle';
 
 export default function Header() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -57,7 +58,9 @@ export default function Header() {
               <Search className='h-4 w-4' />
             </Button>
 
-            <div className='hidden md:block'>{/* <ThemeToggle /> */}</div>
+            <div className='hidden md:block'>
+              <ThemeToggle />
+            </div>
 
             <Link href={ADMIN_LINK.href}>
               <Button
