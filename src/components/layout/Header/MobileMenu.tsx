@@ -3,7 +3,6 @@
 import { NAV_ITEMS } from '@/constants/navigation';
 import NavLink from './NavLink';
 import { SearchBar } from './SearchBar';
-import ThemeToggle from '../ThemeToggle';
 
 interface MobileMenuProps {
   isOpen: boolean;

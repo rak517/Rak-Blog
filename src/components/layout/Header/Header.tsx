@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import FileIcon from '@/assets/icon/FileIcon';
-import { ADMIN_LINK, NAV_ITEMS } from '@/constants/navigation';
+import { NAV_ITEMS } from '@/constants/navigation';
 import NavLink from './NavLink';
 import { usePathname } from 'next/navigation';
 import { Button } from '../../ui/Button';
@@ -61,16 +61,6 @@ export default function Header() {
             </Button>
 
             <ThemeToggle />
-
-            <Link href={ADMIN_LINK.href}>
-              <Button
-                variant='outline'
-                size='sm'
-                className='hover:bg-accent h-8 bg-transparent px-2 transition-colors sm:px-3'
-              >
-                {ADMIN_LINK.label}
-              </Button>
-            </Link>
 
             <Button
               variant='ghost'
