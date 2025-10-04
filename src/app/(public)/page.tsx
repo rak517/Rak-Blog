@@ -1,8 +1,5 @@
 import HeroSection from '@/components/Landing/HeroSection';
-import { ProfileCard } from '@/components/layout/Sidebar/ProfileCard';
-import { RecentPostsCard } from '@/components/layout/Sidebar/RecentPostCard';
 import Sidebar from '@/components/layout/Sidebar/Sidebar';
-import TagsCard from '@/components/layout/Sidebar/TagsCard';
 import BlogPostCard from '@/components/Post/BlogPostCard';
 import { mockPosts } from '@/data/posts-data';
 
