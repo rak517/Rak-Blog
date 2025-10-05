@@ -35,7 +35,7 @@ export default function BlogPostCard({ post, variant = 'grid' }: BlogPostCardPro
                 {tags.slice(0, 3).map((tag) => (
                   <Link key={tag.id} href={`/tags/${tag.slug}`}>
                     <Badge variant='secondary' className='hover:bg-primary/15 cursor-pointer text-xs transition-colors'>
-                      #{tag.name}
+                      # {tag.name}
                     </Badge>
                   </Link>
                 ))}
