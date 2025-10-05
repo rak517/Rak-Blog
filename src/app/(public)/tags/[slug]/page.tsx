@@ -5,7 +5,6 @@ import { mockPostTags } from '@/data/post-tags-data';
 import BlogPostCard from '@/components/Post/BlogPostCard';
 import Sidebar from '@/components/layout/Sidebar/Sidebar';
 import { Card, CardContent } from '@/components/ui/Card';
-import { Badge } from '@/components/ui/Badge';
 import { Hash, FileText } from 'lucide-react';
 
 interface TagPageProps {
