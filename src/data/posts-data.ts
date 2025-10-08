@@ -21,7 +21,44 @@ export const mockPosts: Post[] = [
     title: 'React 19의 새로운 기능들',
     slug: 'react-19-new-features',
     description: 'React 19에서 추가된 새로운 기능과 변경사항을 알아봅니다.',
-    content: 'React 19 content...',
+    content: `# React 19의 새로운 기능들
+
+React 19가 출시되면서 많은 새로운 기능과 개선사항이 추가되었습니다.
+
+## 주요 변경사항
+
+### 1. React Compiler
+
+React 19에서는 **자동 메모이제이션**을 제공하는 컴파일러가 추가되었습니다.
+
+\`\`\`typescript
+// 이제 useMemo, useCallback을 직접 사용할 필요가 없습니다
+function TodoList({ todos, tab }) {
+  const visibleTodos = filterTodos(todos, tab);
+  return (
+    <ul>
+      {visibleTodos.map(todo => (
+        <li key={todo.id}>{todo.text}</li>
+      ))}
+    </ul>
+  );
+}
+\`\`\`
+
+### 2. Actions
+
+폼 처리를 위한 새로운 \`action\` prop이 추가되었습니다.
+
+## 성능 개선
+
+React 19는 다음과 같은 성능 개선이 있습니다:
+
+- **더 빠른 초기 렌더링**: 최대 30% 개선
+- **메모리 사용량 감소**: 평균 20% 감소  
+- **번들 크기 최적화**: gzip 기준 약 15% 감소
+
+> ⚠️ **주의**: React 19로 업그레이드 시 Breaking Changes를 확인하세요.
+`,
     seriesId: 'series-1',
     seriesOrder: 1,
     status: 'published',
