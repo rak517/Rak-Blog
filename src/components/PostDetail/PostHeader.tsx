@@ -34,7 +34,7 @@ export default function PostHeader({ post, tags }: PostHeaderProps) {
           {tags.map((tag) => (
             <Link key={tag.id} href={`/tags/${tag.slug}`}>
               <Badge variant='secondary' className='hover:bg-primary/15 cursor-pointer transition-colors'>
-                #{tag.name}
+                # {tag.name}
               </Badge>
             </Link>
           ))}
