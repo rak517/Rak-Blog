@@ -210,3 +210,38 @@ a:hover {
   transform: translateY(-1px);
   box-shadow: 0 4px 12px hsl(var(--primary) / 0.15);
 }
+
+/* Code Highlighting - Light mode */
+@import 'highlight.js/styles/github.css' layer(hljs-light);
+
+/* Code Highlighting - Dark mode override */
+@layer hljs {
+  .dark pre code.hljs {
+    background: oklch(0.12 0 0) !important;
+    color: oklch(0.95 0 0) !important;
+  }
+
+  .dark .hljs-keyword,
+  .dark .hljs-selector-tag,
+  .dark .hljs-literal,
+  .dark .hljs-title,
+  .dark .hljs-section,
+  .dark .hljs-doctag,
+  .dark .hljs-type,
+  .dark .hljs-name,
+  .dark .hljs-strong {
+    color: oklch(0.75 0.15 300) !important;
+  }
+
+  .dark .hljs-comment,
+  .dark .hljs-quote {
+    color: oklch(0.5 0 0) !important;
+  }
+}
+
+pre code.hljs {
+  padding: 1rem;
+  border-radius: var(--radius);
+  overflow-x: auto;
+  border: 1px solid hsl(var(--border));
+}
