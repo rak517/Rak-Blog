@@ -1,3 +1,4 @@
+import CommentsSection from '@/components/PostDetail/CommentSection';
 import MarkdownContent from '@/components/PostDetail/MarkdownContent';
 import PostHeader from '@/components/PostDetail/PostHeader';
 import SeriesNavigationCard from '@/components/PostDetail/SeriesNavigationCard';
@@ -47,6 +48,8 @@ export default async function Page({ params }: PostPageProps) {
               </div>
 
               <SeriesPostNavigation currentPost={post} />
+
+              <CommentsSection />
             </article>
 
             <aside className='hidden lg:block'>
