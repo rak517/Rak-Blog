@@ -1,6 +1,8 @@
 import MarkdownContent from '@/components/PostDetail/MarkdownContent';
 import PostHeader from '@/components/PostDetail/PostHeader';
 import SeriesNavigationCard from '@/components/PostDetail/SeriesNavigationCard';
+import SeriesPostNavigation from '@/components/PostDetail/SeriesPostNavigation';
+import { Card, CardContent } from '@/components/ui/Card';
 import { mockPostTags } from '@/data/post-tags-data';
 import { mockPosts } from '@/data/posts-data';
 import { mockSeries } from '@/data/series-data';
@@ -31,17 +33,38 @@ export default async function Page({ params }: PostPageProps) {
   return (
     <div className='min-h-screen pb-16'>
       <main className='container mx-auto px-4 py-6 sm:px-6 sm:py-8 lg:py-12'>
-        <article className='mx-auto max-w-4xl'>
-          {series && post.seriesOrder && (
-            <SeriesNavigationCard series={series} currentOrder={post.seriesOrder} totalPosts={totalPostsInSeries} />
-          )}
+        <div className='mx-auto max-w-7xl'>
+          <div className='grid gap-8 lg:grid-cols-[1fr_280px]'>
+            <article className='min-w-0'>
+              {series && post.seriesOrder && (
+                <SeriesNavigationCard series={series} currentOrder={post.seriesOrder} totalPosts={totalPostsInSeries} />
+              )}
 
-          <PostHeader post={post} tags={tags} />
+              <PostHeader post={post} tags={tags} />
 
-          <div className='px-2 sm:px-4 lg:px-0'>
-            <MarkdownContent content={post.content} />
+              <div className='px-2 sm:px-4 lg:px-0'>
+                <MarkdownContent content={post.content} />
+              </div>
+
+              <SeriesPostNavigation currentPost={post} />
+            </article>
+
+            <aside className='hidden lg:block'>
+              <div className='sticky top-24'>
+                <Card className='border-border/50 shadow-sm'>
+                  <CardContent className='p-6'>
+                    <h3 className='mb-4 font-mono text-sm font-semibold'>
+                      <span className='text-primary'>{'//'}</span> 목차
+                    </h3>
+                    <div className='text-muted-foreground text-sm'>
+                      <p className='font-mono'>TOC 기능 추후 추가 예정</p>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            </aside>
           </div>
-        </article>
+        </div>
       </main>
     </div>
   );
