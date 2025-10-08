@@ -29,8 +29,8 @@ export default async function Page({ params }: PostPageProps) {
     : 0;
 
   return (
-    <div className='min-h-screen'>
-      <main className='container mx-auto px-4 py-8'>
+    <div className='min-h-screen pb-16'>
+      <main className='container mx-auto px-4 py-6 sm:px-6 sm:py-8 lg:py-12'>
         <article className='mx-auto max-w-4xl'>
           {series && post.seriesOrder && (
             <SeriesNavigationCard series={series} currentOrder={post.seriesOrder} totalPosts={totalPostsInSeries} />
@@ -38,7 +38,9 @@ export default async function Page({ params }: PostPageProps) {
 
           <PostHeader post={post} tags={tags} />
 
-          <MarkdownContent content={post.content} />
+          <div className='px-2 sm:px-4 lg:px-0'>
+            <MarkdownContent content={post.content} />
+          </div>
         </article>
       </main>
     </div>
