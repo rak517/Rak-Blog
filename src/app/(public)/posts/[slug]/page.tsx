@@ -44,3 +44,27 @@ export default async function Page({ params }: PostPageProps) {
     </div>
   );
 }
+
+export function generateStaticParams() {
+  return mockPosts
+    .filter((post) => post.status === 'published')
+    .map((post) => ({
+      slug: post.slug!,
+    }));
+}
+
+export async function generateMetadata({ params }: PostPageProps) {
+  const { slug } = await params;
+  const post = mockPosts.find((p) => p.slug === slug);
+
+  if (!post) {
+    return {
+      title: 'Post Not Found',
+    };
+  }
+
+  return {
+    title: post.title,
+    description: post.description,
+  };
+}
