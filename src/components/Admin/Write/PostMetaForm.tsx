@@ -1,29 +1,37 @@
 'use client';
 
 import { useState } from 'react';
-import { Button } from '@/components/ui/Button';
 import { Separator } from '@/components/ui/Separator';
 import { Textarea } from '@/components/ui/Textarea';
 import CreateSeriesModal from './CreateSeriesModal';
 import TagInput from './TagInput';
-import { Plus } from 'lucide-react';
+import SeriesSelect from './SeriesSelect';
+import { mockSeries } from '@/data/series-data';
 
 interface PostMetaFormProps {
   title: string;
   description: string;
   tags: string[];
+  seriesId: string | null;
+  seriesOrder: number | null;
   onTitleChange: (title: string) => void;
   onDescriptionChange: (description: string) => void;
   onTagsChange: (tags: string[]) => void;
+  onSeriesChange: (seriesId: string | null) => void;
+  onSeriesOrderChange: (order: number | null) => void;
 }
 
 export default function PostMetaForm({
   title,
   description,
   tags,
+  seriesId,
+  seriesOrder,
   onTitleChange,
   onDescriptionChange,
   onTagsChange,
+  onSeriesChange,
+  onSeriesOrderChange,
 }: PostMetaFormProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -55,9 +63,14 @@ export default function PostMetaForm({
         <label className='text-muted-foreground block font-mono text-sm'>
           <span className='text-primary'>📚</span> 시리즈
         </label>
-        <Button variant='outline' className='w-full justify-start gap-2' onClick={() => setIsModalOpen(true)}>
-          <Plus className='h-4 w-4' />새 시리즈 만들기
-        </Button>
+        <SeriesSelect
+          series={mockSeries}
+          selectedSeriesId={seriesId}
+          seriesOrder={seriesOrder}
+          onSeriesChange={onSeriesChange}
+          onSeriesOrderChange={onSeriesOrderChange}
+          onCreateNewSeries={() => setIsModalOpen(true)}
+        />
       </div>
 
       <Separator />
