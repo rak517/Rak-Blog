@@ -9,6 +9,7 @@ import PostMetaForm from '@/components/Admin/Write/PostMetaForm';
 export default function WritePage() {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+  const [tags, setTags] = useState<string[]>([]);
   const [content, setContent] = useState('');
   const [isSaving, setIsSaving] = useState(false);
   const [lastSaved, setLastSaved] = useState<string | null>(null);
@@ -17,7 +18,7 @@ export default function WritePage() {
     setIsSaving(true);
 
     // TODO: 실제 저장 로직 구현
-    console.log('임시저장:', { title, description, content });
+    console.log('임시저장:', { title, description, tags, content });
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
     const now = new Date().toLocaleTimeString('ko-KR', {
@@ -32,7 +33,7 @@ export default function WritePage() {
     setIsSaving(true);
 
     // TODO: 실제 발행 로직 구현
-    console.log('발행:', { title, description, content });
+    console.log('발행:', { title, description, tags, content });
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
     setIsSaving(false);
@@ -49,8 +50,10 @@ export default function WritePage() {
             <PostMetaForm
               title={title}
               description={description}
+              tags={tags}
               onTitleChange={setTitle}
               onDescriptionChange={setDescription}
+              onTagsChange={setTags}
             />
           </div>
 
