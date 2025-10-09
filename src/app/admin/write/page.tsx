@@ -4,17 +4,20 @@ import { useState } from 'react';
 import WriteHeader from '@/components/Admin/Write/WriteHeader';
 import MarkdownEditor from '@/components/Admin/Write/MarkdownEditor';
 import MarkdownPreview from '@/components/Admin/Write/MarkdownPreview';
+import PostMetaForm from '@/components/Admin/Write/PostMetaForm';
 
 export default function WritePage() {
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
   const [content, setContent] = useState('');
   const [isSaving, setIsSaving] = useState(false);
   const [lastSaved, setLastSaved] = useState<string | null>(null);
 
-  // 임시저장 핸들러
   const handleSaveDraft = async () => {
     setIsSaving(true);
 
     // TODO: 실제 저장 로직 구현
+    console.log('임시저장:', { title, description, content });
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
     const now = new Date().toLocaleTimeString('ko-KR', {
@@ -25,11 +28,11 @@ export default function WritePage() {
     setIsSaving(false);
   };
 
-  // 발행하기 핸들러
   const handlePublish = async () => {
     setIsSaving(true);
 
     // TODO: 실제 발행 로직 구현
+    console.log('발행:', { title, description, content });
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
     setIsSaving(false);
@@ -42,12 +45,12 @@ export default function WritePage() {
 
       <main className='flex flex-1 overflow-hidden'>
         <div className='flex w-full flex-col border-r lg:w-1/2'>
-          {/* 제목 입력 영역 (다음 단계에서 추가) */}
-          <div className='border-border/40 border-b p-6'>
-            <input
-              type='text'
-              placeholder='제목을 입력하세요'
-              className='text-foreground placeholder:text-muted-foreground w-full bg-transparent text-4xl font-bold outline-none'
+          <div className='border-border/40 max-h-[50vh] overflow-y-auto border-b'>
+            <PostMetaForm
+              title={title}
+              description={description}
+              onTitleChange={setTitle}
+              onDescriptionChange={setDescription}
             />
           </div>
 
