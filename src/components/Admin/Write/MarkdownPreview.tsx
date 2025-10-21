@@ -1,18 +1,18 @@
 'use client';
 
+import { useFormContext } from 'react-hook-form';
 import { cn } from '@/utils/cn';
 import { useMemo } from 'react';
 import ReactMarkdown from 'react-markdown';
 import rehypeHighlight from 'rehype-highlight';
 import remarkGfm from 'remark-gfm';
+import type { CreatePostInput } from '@/schemas/post.schema';
 
-interface MarkdownPreviewProps {
-  content: string;
-  className?: string;
-}
+export default function MarkdownPreview() {
+  const { watch } = useFormContext<CreatePostInput>();
+  const content = watch('content');
 
-export default function MarkdownPreview({ content, className }: MarkdownPreviewProps) {
-  const isEmpty = !content.trim();
+  const isEmpty = !content?.trim();
 
   const renderedContent = useMemo(
     () => (
@@ -71,8 +71,6 @@ export default function MarkdownPreview({ content, className }: MarkdownPreviewP
         'prose-th:border prose-th:border-border prose-th:bg-muted/50',
         'prose-th:px-4 prose-th:py-2 prose-th:text-left',
         'prose-td:border prose-td:border-border prose-td:px-4 prose-td:py-2',
-
-        className,
       )}
     >
       <div className='p-6'>
