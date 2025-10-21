@@ -1,19 +1,19 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import { useFormContext } from 'react-hook-form';
 import { EditorState } from '@codemirror/state';
 import { EditorView, keymap, lineNumbers } from '@codemirror/view';
 import { defaultKeymap, history, historyKeymap } from '@codemirror/commands';
 import { markdown } from '@codemirror/lang-markdown';
 import { oneDark } from '@codemirror/theme-one-dark';
 import { useTheme } from 'next-themes';
+import type { CreatePostInput } from '@/schemas/post.schema';
 
-interface MarkdownEditorProps {
-  value: string;
-  onChange: (value: string) => void;
-}
+export default function MarkdownEditor() {
+  const { setValue, watch } = useFormContext<CreatePostInput>();
+  const content = watch('content');
 
-export default function MarkdownEditor({ value, onChange }: MarkdownEditorProps) {
   const editorRef = useRef<HTMLDivElement>(null);
   const viewRef = useRef<EditorView | null>(null);
   const { theme } = useTheme();
@@ -22,7 +22,7 @@ export default function MarkdownEditor({ value, onChange }: MarkdownEditorProps)
     if (!editorRef.current) return;
 
     const startState = EditorState.create({
-      doc: value,
+      doc: content,
       extensions: [
         lineNumbers(),
         history(),
@@ -32,7 +32,7 @@ export default function MarkdownEditor({ value, onChange }: MarkdownEditorProps)
         EditorView.lineWrapping,
         EditorView.updateListener.of((update) => {
           if (update.docChanged) {
-            onChange(update.state.doc.toString());
+            setValue('content', update.state.doc.toString());
           }
         }),
         EditorView.theme({
@@ -74,16 +74,16 @@ export default function MarkdownEditor({ value, onChange }: MarkdownEditorProps)
 
     const currentValue = view.state.doc.toString();
 
-    if (currentValue !== value) {
+    if (currentValue !== content) {
       view.dispatch({
         changes: {
           from: 0,
           to: currentValue.length,
-          insert: value,
+          insert: content,
         },
       });
     }
-  }, [value]);
+  }, [content]);
 
   return (
     <div className='h-full w-full overflow-hidden'>
