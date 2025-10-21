@@ -1,86 +1,115 @@
 'use client';
 
-import { useState } from 'react';
+import { useForm, FormProvider } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useSearchParams } from 'next/navigation';
 import WriteHeader from '@/components/Admin/Write/WriteHeader';
 import MarkdownEditor from '@/components/Admin/Write/MarkdownEditor';
 import MarkdownPreview from '@/components/Admin/Write/MarkdownPreview';
 import PostMetaForm from '@/components/Admin/Write/PostMetaForm';
+import { useCreatePost } from '@/hooks/api';
+import { createPostSchema, type CreatePostInput } from '@/schemas/post.schema';
 
 export default function WritePage() {
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [tags, setTags] = useState<string[]>([]);
-  const [seriesId, setSeriesId] = useState<string | null>(null);
-  const [seriesOrder, setSeriesOrder] = useState<number | null>(null);
-  const [content, setContent] = useState('');
-  const [isSaving, setIsSaving] = useState(false);
-  const [lastSaved, setLastSaved] = useState<string | null>(null);
+  const searchParams = useSearchParams();
+  const postId = searchParams.get('id');
 
-  const handleSaveDraft = async () => {
-    setIsSaving(true);
+  const form = useForm<CreatePostInput>({
+    resolver: zodResolver(createPostSchema),
+    defaultValues: {
+      title: '',
+      slug: '',
+      description: '',
+      content: '',
+      status: 'draft',
+      tag_ids: [],
+      series_id: null,
+      series_order: null,
+    },
+  });
 
-    // TODO: 실제 저장 로직 구현
-    console.log('임시저장:', { title, description, tags, seriesId, seriesOrder, content });
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+  const { createPost, isPending } = useCreatePost();
 
-    const now = new Date().toLocaleTimeString('ko-KR', {
-      hour: '2-digit',
-      minute: '2-digit',
+  // TODO: postId가 있으면 데이터 로드
+  // useEffect(() => {
+  //   if (postId) {
+  //     const post = await getPost(postId);
+  //     form.reset(post);
+  //   }
+  // }, [postId]);
+
+  const handleSaveDraft = () => {
+    const values = form.getValues();
+
+    if (!values.title?.trim() || !values.slug?.trim()) {
+      return;
+    }
+
+    createPost({
+      title: values.title,
+      slug: values.slug,
+      description: values.description,
+      content: values.content,
+      thumbnail: values.thumbnail,
+      status: 'draft',
+      parent_id: postId?.startsWith('post-') ? postId : undefined,
+      series_id: values.series_id,
+      series_order: values.series_order,
+      tag_ids: values.tag_ids,
     });
-    setLastSaved(now);
-    setIsSaving(false);
   };
 
-  const handlePublish = async () => {
-    setIsSaving(true);
+  const handlePublish = () => {
+    const values = form.getValues();
 
-    // TODO: 실제 발행 로직 구현
-    console.log('발행:', { title, description, tags, seriesId, seriesOrder, content });
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    if (!values.title?.trim() || !values.slug?.trim() || !values.description?.trim()) {
+      return;
+    }
 
-    setIsSaving(false);
-    console.log('발행 완료!');
+    createPost({
+      title: values.title,
+      slug: values.slug,
+      description: values.description,
+      content: values.content,
+      thumbnail: values.thumbnail,
+      status: 'published',
+      parent_id: postId?.startsWith('post-') ? postId : undefined,
+      series_id: values.series_id,
+      series_order: values.series_order,
+      tag_ids: values.tag_ids,
+    });
   };
 
   return (
-    <div className='flex h-screen flex-col'>
-      <WriteHeader onSaveDraft={handleSaveDraft} onPublish={handlePublish} isSaving={isSaving} lastSaved={lastSaved} />
+    <FormProvider {...form}>
+      <div className='flex h-screen flex-col'>
+        <WriteHeader onSaveDraft={handleSaveDraft} onPublish={handlePublish} isSaving={isPending} />
 
-      <main className='flex flex-1 overflow-hidden'>
-        <div className='flex w-full flex-col border-r lg:w-1/2'>
-          <div className='border-border/40 max-h-[50vh] overflow-y-auto border-b'>
-            <PostMetaForm
-              title={title}
-              description={description}
-              tags={tags}
-              seriesId={seriesId}
-              seriesOrder={seriesOrder}
-              onTitleChange={setTitle}
-              onDescriptionChange={setDescription}
-              onTagsChange={setTags}
-              onSeriesChange={setSeriesId}
-              onSeriesOrderChange={setSeriesOrder}
-            />
-          </div>
-
-          <div className='flex-1 overflow-hidden'>
-            <MarkdownEditor value={content} onChange={setContent} />
-          </div>
-        </div>
-
-        <div className='bg-muted/30 hidden w-1/2 overflow-hidden lg:block'>
-          <div className='flex h-full flex-col'>
-            <div className='border-border/40 flex items-center border-b px-6 py-3'>
-              <span className='text-muted-foreground font-mono text-sm font-medium'>
-                <span className='text-primary'>{'//'}</span> 미리보기
-              </span>
+        <main className='flex flex-1 overflow-hidden'>
+          <div className='flex w-full flex-col border-r lg:w-1/2'>
+            <div className='border-border/40 max-h-[50vh] overflow-y-auto border-b'>
+              <PostMetaForm />
             </div>
+
             <div className='flex-1 overflow-hidden'>
-              <MarkdownPreview content={content} />
+              <MarkdownEditor />
             </div>
           </div>
-        </div>
-      </main>
-    </div>
+
+          <div className='bg-muted/30 hidden w-1/2 overflow-hidden lg:block'>
+            <div className='flex h-full flex-col'>
+              <div className='border-border/40 flex items-center border-b px-6 py-3'>
+                <span className='text-muted-foreground font-mono text-sm font-medium'>
+                  <span className='text-primary'>{'//'}</span> 미리보기
+                </span>
+              </div>
+              <div className='flex-1 overflow-hidden'>
+                <MarkdownPreview />
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+    </FormProvider>
   );
 }
