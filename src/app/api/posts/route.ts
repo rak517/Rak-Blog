@@ -3,15 +3,10 @@ import { NextResponse } from 'next/server';
 import type { CreatePostResponse, ErrorResponse, PostDTO } from '@/types/post';
 import { createPostSchema } from '@/schemas/post.schema';
 
-// ========================================
-// POST /api/posts - 포스트 생성
-// ========================================
-
 export async function POST(request: Request) {
   try {
     const supabase = await createClient();
 
-    // 1. 인증 확인
     const {
       data: { user },
       error: authError,
@@ -27,7 +22,6 @@ export async function POST(request: Request) {
       );
     }
 
-    // 2. 요청 바디 파싱 및 검증
     const body = await request.json();
     const validationResult = createPostSchema.safeParse(body);
 
@@ -44,7 +38,6 @@ export async function POST(request: Request) {
 
     const data = validationResult.data;
 
-    // 3. slug 중복 체크
     const { data: existingPost } = await supabase.from('posts').select('id').eq('slug', data.slug).single();
 
     if (existingPost) {
@@ -57,7 +50,6 @@ export async function POST(request: Request) {
       );
     }
 
-    // 4. 포스트 데이터 준비
     const postData = {
       title: data.title,
       slug: data.slug,
@@ -71,7 +63,6 @@ export async function POST(request: Request) {
       published_at: data.status === 'published' ? new Date().toISOString() : null,
     };
 
-    // 5. 포스트 생성
     const { data: createdPost, error: insertError } = await supabase
       .from('posts')
       .insert(postData)
@@ -90,7 +81,6 @@ export async function POST(request: Request) {
       );
     }
 
-    // 6. 태그 연결 (post_tags)
     if (data.tag_ids && data.tag_ids.length > 0) {
       const postTags = data.tag_ids.map((tagId) => ({
         post_id: createdPost.id,
@@ -101,11 +91,9 @@ export async function POST(request: Request) {
 
       if (tagError) {
         console.error('Tag insert error:', tagError);
-        // 태그 연결 실패해도 포스트는 생성되었으므로 경고만 로깅
       }
     }
 
-    // 7. 성공 응답 (날짜 변환은 클라이언트 ky afterHook에서 처리)
     return NextResponse.json<CreatePostResponse>(
       {
         success: true,
